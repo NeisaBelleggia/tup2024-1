@@ -10,7 +10,7 @@ public class Cuenta {
     TipoCuenta tipoCuenta;
     Cliente titular;
     TipoMoneda moneda;
-
+    
     public Cuenta() {
         this.numeroCuenta = new Random().nextLong();
         this.balance = 0;
@@ -85,6 +85,4 @@ public class Cuenta {
     public long getNumeroCuenta() {
         return numeroCuenta;
     }
-
-
 }
