@@ -6,7 +6,7 @@ import java.util.Random;
 public class Cuenta {
     private long numeroCuenta;
     LocalDateTime fechaCreacion;
-    int balance;
+    double balance;
     TipoCuenta tipoCuenta;
     Cliente titular;
     TipoMoneda moneda;
@@ -17,6 +17,15 @@ public class Cuenta {
         this.fechaCreacion = LocalDateTime.now();
     }
 
+    // Constructor necesario
+    public Cuenta(long numeroCuenta, double balance, TipoMoneda moneda, TipoCuenta tipoCuenta) {
+        this.numeroCuenta = numeroCuenta;
+        this.balance = balance;
+        this.moneda = moneda;
+        this.tipoCuenta = tipoCuenta;
+        this.fechaCreacion = LocalDateTime.now();
+    }
+
     public Cliente getTitular() {
         return titular;
     }
@@ -24,7 +33,6 @@ public class Cuenta {
     public void setTitular(Cliente titular) {
         this.titular = titular;
     }
-
 
     public TipoCuenta getTipoCuenta() {
         return tipoCuenta;
@@ -44,7 +52,6 @@ public class Cuenta {
         return this;
     }
 
-
     public LocalDateTime getFechaCreacion() {
         return fechaCreacion;
     }
@@ -54,11 +61,11 @@ public class Cuenta {
         return this;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public Cuenta setBalance(int balance) {
+    public Cuenta setBalance(double balance) {
         this.balance = balance;
         return this;
     }
@@ -86,5 +93,8 @@ public class Cuenta {
         return numeroCuenta;
     }
 
-
+    public Cuenta orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
 }

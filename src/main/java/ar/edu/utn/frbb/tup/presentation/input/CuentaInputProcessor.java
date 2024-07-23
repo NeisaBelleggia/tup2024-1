@@ -1,6 +1,6 @@
 package ar.edu.utn.frbb.tup.presentation.input;
 
-import ar.edu.utn.frbb.tup.model.Cliente;
+
 import ar.edu.utn.frbb.tup.model.Cuenta;
 import ar.edu.utn.frbb.tup.model.TipoCuenta;
 import ar.edu.utn.frbb.tup.model.TipoMoneda;
@@ -16,17 +16,18 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 @Component
-public class CuentaInputProcessor extends BaseInputProcessor{
+public class CuentaInputProcessor extends BaseInputProcessor {
     ClienteService clienteService;
-    CuentaService cuentaService = new CuentaService();
+    CuentaService cuentaService;
     CuentaDao cuentaDao = new CuentaDao();
     Scanner scanner = new Scanner(System.in);
 
-    public CuentaInputProcessor(ClienteService clienteService) {
+    public CuentaInputProcessor(ClienteService clienteService, CuentaService cuentaService) {
         this.clienteService = clienteService;
+        this.cuentaService = cuentaService;
     }
 
-    public void altaCuenta() {
+    public void altaCuenta() throws ClienteAlreadyExistsException {
         Cuenta cuenta = new Cuenta();
         clearScreen();
 
@@ -37,7 +38,6 @@ public class CuentaInputProcessor extends BaseInputProcessor{
             tipoCuentaStr = scanner.nextLine().toUpperCase();
         }
 
-        // if (condicion) ? resultado1 : resultado2
         TipoCuenta tipoCuenta = tipoCuentaStr.equals("C") ? TipoCuenta.CUENTA_CORRIENTE : TipoCuenta.CAJA_AHORRO;
         cuenta.setTipoCuenta(tipoCuenta);
 
@@ -61,7 +61,7 @@ public class CuentaInputProcessor extends BaseInputProcessor{
         try {
             cuentaService.darDeAltaCuenta(cuenta, dniTitular);
             System.out.println("Cuenta creada con éxito");
-        } catch (TipoCuentaAlreadyExistsException e){
+        } catch (TipoCuentaAlreadyExistsException e) {
             System.out.println("Error: " + e.getMessage());
             return;
         } catch (CuentaAlreadyExistsException e) {

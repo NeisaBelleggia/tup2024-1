@@ -1,19 +1,17 @@
 package ar.edu.utn.frbb.tup.persistence.entity;
 
-import ar.edu.utn.frbb.tup.model.Cliente;
 import ar.edu.utn.frbb.tup.model.Cuenta;
 import ar.edu.utn.frbb.tup.model.TipoCuenta;
-import ar.edu.utn.frbb.tup.persistence.ClienteDao;
 
 import java.time.LocalDateTime;
 
-public class CuentaEntity extends BaseEntity{
-    String nombre;
-    LocalDateTime fechaCreacion;
-    int balance;
-    String tipoCuenta;
-    Long titular;
-    long numeroCuenta;
+public class CuentaEntity extends BaseEntity {
+    private String nombre;
+    private LocalDateTime fechaCreacion;
+    private double balance;
+    private String tipoCuenta;
+    private Long titular;
+    private long numeroCuenta;
 
     public CuentaEntity(Cuenta cuenta) {
         super(cuenta.getNumeroCuenta());
@@ -48,11 +46,11 @@ public class CuentaEntity extends BaseEntity{
         this.fechaCreacion = fechaCreacion;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -79,4 +77,14 @@ public class CuentaEntity extends BaseEntity{
     public void setNumeroCuenta(long numeroCuenta) {
         this.numeroCuenta = numeroCuenta;
     }
+
+    public String getMoneda() {
+        return this.tipoCuenta.contains("$") ? "pesos" : "dolares"; // Ajustar según lógica real
+    }
+
+    // No se necesita este método
+    // public Cuenta orElseThrow(Object object) {
+    //     throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    // }
 }
+

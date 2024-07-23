@@ -3,12 +3,11 @@ package ar.edu.utn.frbb.tup.model;
 import ar.edu.utn.frbb.tup.controller.ClienteDto;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.Period;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona {
 
     private TipoPersona tipoPersona;
     private String banco;
@@ -18,6 +17,7 @@ public class Cliente extends Persona{
     public Cliente() {
         super();
     }
+
     public Cliente(ClienteDto clienteDto) {
         super(clienteDto.getDni(), clienteDto.getApellido(), clienteDto.getNombre(), clienteDto.getFechaNacimiento());
         fechaAlta = LocalDate.now();
@@ -58,13 +58,19 @@ public class Cliente extends Persona{
     }
 
     public boolean tieneCuenta(TipoCuenta tipoCuenta, TipoMoneda moneda) {
-        for (Cuenta cuenta:
-                cuentas) {
+        for (Cuenta cuenta : cuentas) {
             if (tipoCuenta.equals(cuenta.getTipoCuenta()) && moneda.equals(cuenta.getMoneda())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public int getEdad() {
+        if (this.getFechaNacimiento() != null) {
+            return Period.between(this.getFechaNacimiento(), LocalDate.now()).getYears();
+        }
+        return 0;
     }
 
     @Override
