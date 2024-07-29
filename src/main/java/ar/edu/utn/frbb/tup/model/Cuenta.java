@@ -1,20 +1,72 @@
 package ar.edu.utn.frbb.tup.model;
 
 import java.time.LocalDateTime;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cuenta {
     private long numeroCuenta;
-    LocalDateTime fechaCreacion;
-    int balance;
-    TipoCuenta tipoCuenta;
-    Cliente titular;
-    TipoMoneda moneda;
+    private LocalDateTime fechaCreacion;
+    private double balance;
+    private TipoCuenta tipoCuenta;
+    private Cliente titular;
+    private TipoMoneda moneda;
+    private List<Transaccion> transacciones;
 
     public Cuenta() {
-        this.numeroCuenta = new Random().nextLong();
+        this.numeroCuenta = -1; // Número de cuenta no definido
         this.balance = 0;
         this.fechaCreacion = LocalDateTime.now();
+        this.transacciones = new ArrayList<>();
+    }
+
+    public Cuenta(long numeroCuenta, double balance, TipoMoneda moneda, TipoCuenta tipoCuenta) {
+        this.numeroCuenta = numeroCuenta;
+        this.balance = balance;
+        this.moneda = moneda;
+        this.tipoCuenta = tipoCuenta;
+        this.fechaCreacion = LocalDateTime.now();
+        this.transacciones = new ArrayList<>();
+    }
+
+    public long getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
+    public void setNumeroCuenta(long numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public TipoCuenta getTipoCuenta() {
+        return tipoCuenta;
+    }
+
+    public void setTipoCuenta(TipoCuenta tipoCuenta) {
+        this.tipoCuenta = tipoCuenta;
+    }
+
+    public TipoMoneda getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(TipoMoneda moneda) {
+        this.moneda = moneda;
     }
 
     public Cliente getTitular() {
@@ -25,66 +77,32 @@ public class Cuenta {
         this.titular = titular;
     }
 
-
-    public TipoCuenta getTipoCuenta() {
-        return tipoCuenta;
+    public List<Transaccion> getTransacciones() {
+        return transacciones;
     }
 
-    public Cuenta setTipoCuenta(TipoCuenta tipoCuenta) {
-        this.tipoCuenta = tipoCuenta;
-        return this;
+    public void setTransacciones(List<Transaccion> transacciones) {
+        this.transacciones = transacciones;
     }
 
-    public TipoMoneda getMoneda() {
-        return moneda;
-    }
-
-    public Cuenta setMoneda(TipoMoneda moneda) {
-        this.moneda = moneda;
-        return this;
-    }
-
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public Cuenta setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-        return this;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public Cuenta setBalance(int balance) {
-        this.balance = balance;
-        return this;
-    }
-
-    public void debitarDeCuenta(int cantidadADebitar) throws NoAlcanzaException, CantidadNegativaException {
+    public void debitarDeCuenta(double cantidadADebitar) throws NoAlcanzaException, CantidadNegativaException {
         if (cantidadADebitar < 0) {
             throw new CantidadNegativaException();
         }
-
         if (balance < cantidadADebitar) {
             throw new NoAlcanzaException();
         }
-        this.balance = this.balance - cantidadADebitar;
+        this.balance -= cantidadADebitar;
     }
 
-    public void setNumeroCuenta(long numeroCuenta) {
-        this.numeroCuenta = numeroCuenta;
+    public void acreditarEnCuenta(double cantidadAcreditar) throws CantidadNegativaException {
+        if (cantidadAcreditar < 0) {
+            throw new CantidadNegativaException();
+        }
+        this.balance += cantidadAcreditar;
     }
 
-    public void forzaDebitoDeCuenta(int i) {
-        this.balance = this.balance - i;
+    public void agregarTransaccion(Transaccion transaccion) {
+        this.transacciones.add(transaccion);
     }
-
-    public long getNumeroCuenta() {
-        return numeroCuenta;
-    }
-
-
 }
